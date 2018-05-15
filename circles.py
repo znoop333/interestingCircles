@@ -4,7 +4,7 @@ import subprocess
 import math
 
 from datetime import datetime
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageColor
 from dataclasses import dataclass
 from typing import Tuple, List
 from random import randint, uniform, choice, random
@@ -24,6 +24,11 @@ COLORS = ['#F0CA4D',
           '#1477B2',
           '#0C3F60',
           '#12537E' ]
+
+GHOST_COLORS = []
+for color in COLORS:
+    c = ImageColor.getrgb(color)
+    GHOST_COLORS.append((c[0], c[1], c[2], 128))
 
 BLUES = [ '#060B23',
           '#162137',
@@ -174,9 +179,9 @@ class Circle:
     def really_draw(self): 
         #if self.oob_deactiavte:
             #return
-        out = choice(COLORS)
+        out = choice(GHOST_COLORS)
         for thing in self.history:
-            DRAW.ellipse(thing[0], outline=out)
+            DRAW.ellipse(thing[0], fill=out)
 
     def maybe_deactivate(self):
         # If we are above 10% of the max we have a chance to deactivate
@@ -232,7 +237,7 @@ IMAGE_WIDTH = 6000
 IMAGE_HEIGHT = 2000
 # Create a new image
 CURRENT_IMAGE = Image.new('RGB', (IMAGE_WIDTH, IMAGE_HEIGHT), color="white")
-DRAW = ImageDraw.Draw(CURRENT_IMAGE)
+DRAW = ImageDraw.Draw(CURRENT_IMAGE, 'RGBA')
 
 # Missing: initial setup
 circles = []
