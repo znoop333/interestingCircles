@@ -7,7 +7,10 @@ from datetime import datetime
 from PIL import Image, ImageDraw, ImageFilter, ImageColor
 from dataclasses import dataclass
 from typing import Tuple, List
-from random import randint, uniform, choice, random
+from random import randint, uniform, choice, random, seed
+
+# always seed the RNG!
+seed(1)
 
 COLORS = ['#F0CA4D',
           '#324d5c', 
